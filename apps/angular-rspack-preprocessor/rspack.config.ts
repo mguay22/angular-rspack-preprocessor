@@ -22,6 +22,9 @@ export default createConfig(
       styles: ['./src/styles.scss'],
       scripts: [],
       devServer: {},
+      stylePreprocessorOptions: {
+        includePaths: ['libs/styles']
+      },
     },
   },
   {
