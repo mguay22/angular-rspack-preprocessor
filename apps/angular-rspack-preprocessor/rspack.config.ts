@@ -2,15 +2,20 @@ import { createConfig } from '@nx/angular-rspack';
 
 export default createConfig(
   {
+    rspackConfigOverrides: {
+      output: {
+        cssFilename: `[name].css`,
+        cssChunkFilename: '[name].css',
+      },
+    },
     options: {
       root: __dirname,
-
       outputPath: {
         base: '../../dist/apps/angular-rspack-preprocessor',
       },
       index: './src/index.html',
       browser: './src/main.ts',
-      polyfills: ['./zone.js'],
+      polyfills: ['./src/polyfills.ts'],
       tsConfig: './tsconfig.app.json',
       inlineStyleLanguage: 'scss',
       assets: [
@@ -19,9 +24,22 @@ export default createConfig(
           input: './public',
         },
       ],
-      styles: ['./src/styles.scss'],
+      styles: [
+        {
+          input: './src/styles.scss',
+          bundleName: 'styles',
+          inject: true
+        },
+        {
+          "input": '../../libs/styles/injected.scss',
+          "bundleName": 'injected-styles',
+          "inject": true
+        }
+      ],
       scripts: [],
-      devServer: {},
+      devServer: {
+        port: 4211,
+      },
       stylePreprocessorOptions: {
         includePaths: ['libs/styles']
       },
@@ -54,7 +72,9 @@ export default createConfig(
         extractLicenses: false,
         sourceMap: true,
         namedChunks: true,
-        devServer: {},
+        devServer: {
+          port: 4211
+        },
       },
     },
   }
